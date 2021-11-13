@@ -17,3 +17,4 @@ RUN pip install -r requirements.txt
 #/app을 기본 디렉토리로 설정함
 COPY . /backend/
 #프로젝트에서 만든 코드를 docker image에 복사해 준다. cf) ADD
+EXPOSE 8000

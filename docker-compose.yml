@@ -22,6 +22,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
+    tty: true
     volumes:
       - ./dustar:/backend
     command: >
