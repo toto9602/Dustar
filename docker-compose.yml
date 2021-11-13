@@ -1,0 +1,46 @@
+version: "3.8"
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    volumes: #변경사항을 docker image에 실시간 반영하게 해 준다?
+      - ./frontend:/frontend
+    command: >
+      - sh -c "expo start"
+    environment:
+      - EXPO_DEVTOOLS_LISTEN_ADDRESS=0.0.0.0
+    stdin_open: true
+    tty: true
+  
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./dustar:/backend
+    command: >
+      sh -c "python manage.py runserver 0.0.0.0:8000"
+    environment:
+      - DB_HOST=db
+      - DB_NAME=Dustar
+      - DB_USER=postgres
+      - DB_PASS=star
+    depends_on:
+      - db
+
+  db:
+    image: postgres:9.6.24
+    environment:
+      - POSTGRES_DB=Dustar
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=star
+
+
+#Dockerfile은 도커 이미지를 만듦.
+#가져올 거면, 굳이? 
