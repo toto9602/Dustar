@@ -2,17 +2,21 @@ version: "3.8"
 
 services:
   frontend:
-    build:
+    build: 
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - "19000:19000"
+      - "19006:19006"
+      - "19002:19002"
     volumes: #변경사항을 docker image에 실시간 반영하게 해 준다?
-      - ./frontend:/frontend
+      - ./frontend/:/frontend
+      - ./frontend/node_modules:/frontend/node_modules
     command: >
-      - sh -c "expo start"
+      sh -c "expo start"
     environment:
-      - EXPO_DEVTOOLS_LISTEN_ADDRESS=0.0.0.0
+      - EXPO_DEVTOOLS_LISTEN_ADDRESS= 0.0.0.0
+      - REACT_NATIVE_PACKAGER_HOSTNAME=192.168.0.1
     stdin_open: true
     tty: true
   
@@ -24,7 +28,7 @@ services:
       - "8000:8000"
     tty: true
     volumes:
-      - ./dustar:/backend
+      - ./backend:/backend
     command: >
       sh -c "python manage.py runserver 0.0.0.0:8000"
     environment:
