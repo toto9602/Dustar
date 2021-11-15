@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Dustar",
-    "slug": "Dustar",
+    "name": "dustar",
+    "slug": "dustar",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
