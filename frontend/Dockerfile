@@ -17,4 +17,3 @@ EXPOSE 19000
 EXPOSE 19001
 EXPOSE 19002
 COPY . /frontend/
-ENTRYPOINT ["yarn", "start"]

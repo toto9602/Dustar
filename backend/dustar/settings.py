@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import os, json
 from django.core.exceptions import ImproperlyConfigured 
+from datetime import timedelta
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -48,6 +49,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework_simplejwt.token_blacklist',
+    'account',
+    'challenges',
 ]
 
 MIDDLEWARE = [
@@ -91,7 +96,7 @@ DATABASES = {
         'NAME': os.environ.get('DB_NAME'),
         'USER': os.environ.get('DB_USER'),
         'PASSWORD': os.environ.get('DB_PASS'),
-        'PORT':5432,
+        'PORT':'5432',
     }
 }
 
@@ -120,7 +125,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
@@ -138,3 +143,30 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# AUTH_USER_MODEL = 'account.User'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (  #api 접근시에 인증된 유저, 즉 헤더에 access token을 포함하여
+        'rest_framework.permissions.IsAuthenticated', #유효한 유저만이 접근이 가능하다는 것을 default로 설정
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIEFTIME': timedelta(minutes=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=14),
+    'ROTATE_REFRESH_TOKENS': True, #Tokenrefreshview로 재발급 실행할 때, 새로운 refresh, access토큰 발금 & json응답
+    'BLACKLIST_AFTER_ROTATION':True, #재발급할 때 기존에 있는 tokne은 blacklist된다. 
+    # 더 이상 필요없는 토큰을 서버에서 사용할 수 없도록 관리하기 
+    'ALGORITHM': 'HS256',#대칭키 방식 cf) RS256
+    'AUTH_HEADER_TYPES':('Bearer',),
+    'USER_ID_FIELD':'id', #변경될 가능성이 적은 값을 지정하길 권장. username이나 email은 고로 권장 X
+    'USER_ID_CLAIM':'user_id', #생성된 토큰에서 유저 식별자를 저장하는 데 사용할 claim
+    'AUTH_TOKEN_CLASSES':('rest_framework_simplejwt.tokens.AccessToken'),
+    'TOKEN_TYPE_CLAIM':'token_type',
+}
