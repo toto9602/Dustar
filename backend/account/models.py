@@ -1,14 +1,15 @@
 from django.db import models
-from django.contrib.auth.models import User
 # from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, \
 #                                         PermissionsMixin
+from django.contrib.auth.models import AbstractUser
 from django.conf import settings
 from django.db.models.fields import BooleanField
 from django.db.models.fields.related import OneToOneField
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-class Profile(models.Model):
+
+class User(AbstractUser):
 
     AMBITIOUS_DUST = 'AD'
     POPPING_DUST = 'PD'
@@ -22,32 +23,66 @@ class Profile(models.Model):
         ('exciting', '신나는 먼지'),
     ]
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile', primary_key=True)
-    email = models.EmailField(max_length=255, unique=True, blank=True, null=True)
-    # 한 이메일로 계정 한 개만 생성 가능하게?
     nickname = models.CharField(max_length=20, blank=True, null=True)
     dust_type = models.CharField(max_length=10, choices=DUST_CHOICES, blank=True, null=True)
     big_star = models.PositiveIntegerField(default=0, blank=True, null=True)
     small_star = models.PositiveIntegerField(default=0, blank=True, null=True)
 
     class Meta:
-        db_table: 'Profile'
+        db_table: 'User'
 
     def __str__(self):
+        if self.nickname is None:
+            return '슈퍼유저'
         return self.nickname
 
 
-#User 모델의 인스턴스가 저장될 때만 메서드 호출
-#유저가 생성되면 자동으로 프로필 생성 & 저장
-# https://korinkorin.tistory.com/57
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
+# class Profile(models.Model):
 
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
+#     AMBITIOUS_DUST = 'AD'
+#     POPPING_DUST = 'PD'
+#     TINY_DUST = 'TD'
+#     EXCITING_DUST = 'ED'
+
+#     DUST_CHOICES = [
+#         ('ambitious', '야망있는 먼지'),
+#         ('popping', '통통튀는 먼지'),
+#         ('tiny', '조구만 먼지'),
+#         ('exciting', '신나는 먼지'),
+#     ]
+
+#     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile', primary_key=True)
+#     email = models.EmailField(max_length=255, unique=True)
+#     nickname = models.CharField(max_length=20, blank=True, null=True)
+#     dust_type = models.CharField(max_length=10, choices=DUST_CHOICES, blank=True, null=True)
+#     big_star = models.PositiveIntegerField(default=0, blank=True, null=True)
+#     small_star = models.PositiveIntegerField(default=0, blank=True, null=True)
+
+#     class Meta:
+#         db_table: 'Profile'
+
+#     def __str__(self):
+#         return self.nickname
+
+
+
+
+
+
+# #User 모델의 인스턴스가 저장될 때만 메서드 호출
+# #유저가 생성되면 자동으로 프로필 생성 & 저장
+# # https://korinkorin.tistory.com/57
+# @receiver(post_save, sender=User)
+# def create_user_profile(sender, instance, created, **kwargs): #sender - 모델 클래스 / instance - 모델의 record 데이터 / created - 레코드가 생성되었다면 True
+#     if created:
+#         Profile.objects.create(user=instance)
+
+# @receiver(post_save, sender=User)
+# def save_user_profile(sender, instance, **kwargs):
+#     instance.profile.save()
+
+
+
 
 # class UserManager(BaseUserManager):  #이거는 다시 봐야 함
 # # 유저 생성 helper function 제공. user 생성할 때의 행위를 지정
