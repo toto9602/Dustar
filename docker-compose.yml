@@ -4,22 +4,22 @@ services:
   frontend:
     build: 
       context: ./frontend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile #해당 부분의 Dockerfile로 이미지 build
     ports:
-      - "19000:19000"
+      - "19000:19000" #컨테이너에 노출된 포트와 호스트 컴퓨터의 포트를 연결
       - "19001:19001"
       - "19002:19002"
     volumes: #변경사항을 docker image에 실시간 반영하게 해 준다?
       - ./frontend/:/frontend
       - ./frontend/node_modules:/frontend/node_modules
-    command: >
-      sh -c "expo start -c"
-    environment:
+    command: > # 셀에서 커멘드 실행
+      sh -c "expo start -c"  
+    environment: #환경 변수 지정
       - EXPO_DEVTOOLS_LISTEN_ADDRESS= 0.0.0.0
       - REACT_NATIVE_PACKAGER_HOSTNAME=192.168.0.1
       - EXPO_DEBUG=true
-    stdin_open: true
-    tty: true
+    stdin_open: true #docker run -i
+    tty: true #셀 실행이 끝나도 컨테이너가 죽지 않게끔. docker run -t
   
   backend:
     build:
