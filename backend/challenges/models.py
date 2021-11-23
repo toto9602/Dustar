@@ -18,9 +18,10 @@ class Challenge(models.Model):
     big_star = models.PositiveIntegerField(default=0)
     small_star = models.PositiveIntegerField(default=0)
     description = models.TextField()
-    creator = models.ForeignKey(User, on_delete = models.CASCADE, related_name='challenges')
+    creator = models.ForeignKey(User, on_delete = models.CASCADE, related_name='challenges_created')
     is_full = models.BooleanField(default=False)
-    participants = models.ManyToManyField(User, related_name='participating')
+    participants = models.ManyToManyField(User, related_name='participating', default='')
+    created_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     class Meta:
         db_table: 'challenges'

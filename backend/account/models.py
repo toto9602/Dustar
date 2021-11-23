@@ -59,14 +59,14 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     objects = UserManager()
     # 헬퍼 클래스 지정하기
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    USERNAME_FIELD = 'email' #email을 username field로 사용
+    REQUIRED_FIELDS = [] #required_fields를 비워서 username을 required_fields에서 제외
     #django는 기본적으로 username을 사용. 이메일을 username으로 사용하기!
     class Meta:
         db_table: 'User'
 
     def __str__(self):
-        if self.nickname is None:
+        if self.nickname is None: #생성된 superuser는 nickname을 갖지 않아, admin에서 에러 방지하는 임시 코드
             return '슈퍼유저먼지'
         return self.nickname
 
