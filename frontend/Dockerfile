@@ -1,19 +1,15 @@
-FROM kerbe/expo:latest
-
-USER root
+FROM node:16.13.0-alpine3.14
 
 RUN mkdir /frontend
 WORKDIR /frontend
 
+RUN npm install axios
+RUN npm install -g expo-cli
 COPY ./package.json ./
 COPY ./yarn.lock ./
 WORKDIR /frontend/
 RUN npm install 
-# RUN npm install -g expo-cli
 
-ENV EXPO_DEVTOOLS_LISTEN_ADDRESS=192.168.0.18
-ENV REACT_NATIVE_PACKAGER_HOSTNAME=192.168.0.18
-ENV EXPO_DEBUG=true
 
 EXPOSE 19000
 EXPOSE 19001
