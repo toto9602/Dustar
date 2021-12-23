@@ -112,7 +112,8 @@ function Signup(props) {
 
         <TouchableOpacity
           style={styles.submitButton}
-          onPress={() => PostSignup()}
+          // onPress={() => PostSignup()}
+          onPress={() => navigation.navigate("Challenge")}
         >
           <Text style={styles.submitButtonText}>별이 될래요</Text>
         </TouchableOpacity>

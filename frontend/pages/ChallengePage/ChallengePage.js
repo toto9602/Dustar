@@ -14,13 +14,20 @@ const main =
 import data from "../../data.json";
 import Card from "../../components/Card";
 
-export default function ChallengePage() {
+export default function ChallengePage({ navigation }) {
   let tip = data.tip;
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Challenge List</Text>
-      <View style={styles.middleContainer}></View>
+      {/* <Text style={styles.title}>Challenge List</Text> */}
+      <View style={styles.middleContainer}>
+        <TouchableOpacity
+          style={styles.submitButton}
+          onPress={() => navigation.navigate("Making")}
+        >
+          <Text style={styles.submitButtonText}>별이 될래요</Text>
+        </TouchableOpacity>
+      </View>
       <ScrollView>
         <View style={styles.cardContainer}>
           {/* 하나의 카드 영역을 나타내는 View */}
@@ -48,7 +55,6 @@ const styles = StyleSheet.create({
     //왼쪽 공간으로 부터 이격
     marginLeft: 20,
   },
-
   mainImage: {
     //컨텐츠의 넓이 값
     width: "90%",
@@ -63,7 +69,7 @@ const styles = StyleSheet.create({
   },
   middleContainer: {
     marginTop: 20,
-    marginLeft: 10,
+
     height: 60,
   },
   middleButton01: {
@@ -71,7 +77,6 @@ const styles = StyleSheet.create({
     height: 50,
     padding: 15,
     backgroundColor: "#fdc453",
-    borderColor: "deeppink",
     borderRadius: 15,
     margin: 7,
   },
@@ -84,5 +89,20 @@ const styles = StyleSheet.create({
   cardContainer: {
     marginTop: 10,
     marginLeft: 10,
+  },
+  submitButton: {
+    backgroundColor: "#A489E7",
+    borderRadius: 80,
+    padding: 10,
+    margin: 50,
+    width: "60%",
+    height: "100%",
+    justifyContent: "center",
+    position: "absolute",
+  },
+  submitButtonText: {
+    fontSize: 20,
+    color: "white",
+    textAlign: "center",
   },
 });

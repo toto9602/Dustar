@@ -10,7 +10,7 @@ import {
 
 export default function DetailPage() {
   const popup = () => {
-    Alert.alert("팝업!!");
+    Alert.alert("챌린지를 만들었습니다!");
   };
   return (
     <ScrollView style={styles.container}>
