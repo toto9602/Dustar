@@ -25,7 +25,7 @@ export default function ChallengePage({ navigation }) {
           style={styles.submitButton}
           onPress={() => navigation.navigate("Making")}
         >
-          <Text style={styles.submitButtonText}>별이 될래요</Text>
+          <Text style={styles.submitButtonText}>챌린지 만들기</Text>
         </TouchableOpacity>
       </View>
       <ScrollView>
@@ -99,6 +99,7 @@ const styles = StyleSheet.create({
     height: "100%",
     justifyContent: "center",
     position: "absolute",
+    bottom: 1,
   },
   submitButtonText: {
     fontSize: 20,

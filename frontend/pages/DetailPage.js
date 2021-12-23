@@ -8,7 +8,7 @@ import {
   Alert,
 } from "react-native";
 
-export default function DetailPage() {
+export default function DetailPage({ navigation }) {
   const popup = () => {
     Alert.alert("먼지들이 모일 때까지 기다려주세요!");
   };

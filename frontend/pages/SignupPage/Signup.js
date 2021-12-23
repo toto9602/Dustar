@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { fetchApi } from "../../utils/fetch";
 
-function Signup(props) {
+function Signup({ navigation }) {
   const userObj = {
     email,
     password,

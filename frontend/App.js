@@ -16,7 +16,11 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Signup">
-        <Stack.Screen name="Challenge" component={ChallengePage} />
+        <Stack.Screen
+          name="Challenge"
+          component={ChallengePage}
+          options={{ title: "챌린지 목록" }}
+        />
         <Stack.Screen name="Signup" component={SignupPage} />
         <Stack.Screen
           name="Making"
